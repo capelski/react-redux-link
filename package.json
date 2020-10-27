@@ -1,0 +1,30 @@
+{
+    "name": "react-redux-connector",
+    "version": "1.0.0",
+    "description": "Utility to ensure component types when connecting a react component to redux",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -p ./tsconfig.json",
+        "watch": "tsc -p ./tsconfig.json -w"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/capelski/react-redux-connector.git"
+    },
+    "keywords": [
+        "react-redux",
+        "redux",
+        "connect"
+    ],
+    "author": "Carles Capellas <capellas.carles@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/capelski/react-redux-connector/issues"
+    },
+    "homepage": "https://github.com/capelski/react-redux-connector#readme",
+    "devDependencies": {
+        "prettier": "^2.1.2",
+        "typescript": "^4.0.5"
+    }
+}
