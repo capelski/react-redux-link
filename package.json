@@ -24,7 +24,12 @@
     },
     "homepage": "https://github.com/capelski/react-redux-connector#readme",
     "devDependencies": {
+        "@types/react-redux": "*",
         "prettier": "^2.1.2",
         "typescript": "^4.0.5"
+    },
+    "dependencies": {
+        "redux": "*",
+        "react-redux": "*"
     }
 }
