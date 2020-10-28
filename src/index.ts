@@ -44,8 +44,7 @@ export type ReduxConnectorProperties<
 }
     ? TComponentState extends undefined
         ? TComponentDispatch extends undefined
-            ?
-                  undefined
+            ? undefined
             : {
                   mapStateToProps?: undefined;
                   mapDispatchToProps: ReduxDispatchMapper<

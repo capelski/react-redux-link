@@ -20,13 +20,13 @@ const Component: React.FC<ComponentProps['all']> = (props) => (
 );
 
 const ConnectedComponent = connector<ComponentProps>(Component, {
-    mapStateToProps: (_state, ownProps) => ({
-        fromReduxState: ownProps.fromParent
-    }),
     mapDispatchToProps: (_dispatch, ownProps) => ({
         fromReduxDispatch: (_parameter: string) => {
             console.log(ownProps.fromParent);
         }
+    }),
+    mapStateToProps: (_state, ownProps) => ({
+        fromReduxState: ownProps.fromParent
     })
 });
 
@@ -52,3 +52,43 @@ export const ParentComponent: React.FC = () => (
         <ConnectedComponent asd={3} /> */}
     </div>
 );
+
+// Following calls should raise typescript errors
+
+// connector<ComponentProps>(Component); // Missing argument
+
+// connector<ComponentProps>(Component, {}); // Invalid second argument
+
+// connector<ComponentProps>(Component, {
+//     // Invalid second argument
+//     mapDispatchToProps: (_dispatch, ownProps) => ({
+//         fromReduxDispatch: (_parameter: string) => {
+//             console.log(ownProps.fromParent);
+//         }
+//     })
+// });
+
+// connector<ComponentProps>(Component, {
+//     // Invalid second argument
+//     mapStateToProps: (_state, ownProps) => ({
+//         fromReduxState: ownProps.fromParent
+//     })
+// });
+
+// connector<ComponentProps>(Component, {
+//     // Invalid mapDispatchToProps return type
+//     mapDispatchToProps: (_dispatch, _ownProps) => ({}),
+//     mapStateToProps: (_state, ownProps) => ({
+//         fromReduxState: ownProps.fromParent
+//     })
+// });
+
+// connector<ComponentProps>(Component, {
+//     mapDispatchToProps: (_dispatch, ownProps) => ({
+//         fromReduxDispatch: (_parameter: string) => {
+//             console.log(ownProps.fromParent);
+//         }
+//     }),
+//     // Invalid mapStateToProps return type
+//     mapStateToProps: (_state, _ownProps) => ({})
+// });

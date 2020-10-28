@@ -35,3 +35,26 @@ export const ParentComponent: React.FC = () => (
         <ConnectedComponent asd={3} /> */}
     </div>
 );
+
+// Following calls should raise typescript errors
+
+// connector<ComponentProps>(Component); // Missing argument
+
+// connector<ComponentProps>(Component, {}); // Invalid second argument
+
+// connector<ComponentProps>(Component, {
+//     // Invalid mapStateToProps return type
+//     mapStateToProps: (_dispatch, _ownProps) => ({})
+// });
+
+// connector<ComponentProps>(Component, {
+//     // Invalid mapDispatchToProps argument
+//     mapDispatchToProps: (_dispatch, ownProps) => ({
+//         fromReduxDispatch: (_parameter: string) => {
+//             console.log(ownProps.fromParent);
+//         }
+//     }),
+//     mapStateToProps: (_state, ownProps) => ({
+//         fromReduxState: ownProps.fromParent
+//     })
+// });

@@ -7,7 +7,7 @@ type ComponentProps = ReduxComposedProps<{
 
 const Component: React.FC<ComponentProps['all']> = (props) => <div>{props.fromParent}</div>;
 
-const ConnectedComponent = connector<ComponentProps>(Component);
+const ConnectedComponent = connector<ComponentProps>(Component, undefined);
 
 export const ParentComponent: React.FC = () => (
     <div>
@@ -22,3 +22,8 @@ export const ParentComponent: React.FC = () => (
         <ConnectedComponent asd={3} /> */}
     </div>
 );
+
+// Following calls should raise typescript errors
+
+// connector<ComponentProps>(Component); // Missing second argument
+// connector<ComponentProps>(Component, {}); // Invalid second argument
