@@ -45,11 +45,7 @@ export type ReduxConnectorProperties<
     ? TComponentState extends undefined
         ? TComponentDispatch extends undefined
             ?
-                  | {
-                        mapStateToProps?: undefined;
-                        mapDispatchToProps?: undefined;
-                    }
-                  | undefined
+                  undefined
             : {
                   mapStateToProps?: undefined;
                   mapDispatchToProps: ReduxDispatchMapper<
@@ -100,7 +96,7 @@ const getReduxConnector = <
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 >(
-    connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+    connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
 ) => {
     return connect(
         connectorProperties && connectorProperties.mapStateToProps,
@@ -118,7 +114,7 @@ export const connector = <
     TDispatch extends Dispatch = Dispatch
 >(
     component: React.FC,
-    connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+    connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
 ) => {
     return getReduxConnector(connectorProperties)(component);
 };
@@ -135,7 +131,7 @@ export const getTypedConnector = <
         >
     >(
         component: React.FC,
-        connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+        connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
     ) {
         return getReduxConnector(connectorProperties)(component);
     };
