@@ -17,7 +17,7 @@ const Component: React.FC<ComponentProps['all']> = (props) => (
     </div>
 );
 
-const ConnectedComponent = connector<ComponentProps, React.FC<ComponentProps['all']>>(Component, {
+const ConnectedComponent = connector<ComponentProps>(Component, {
     mapDispatchToProps: (_dispatch, ownProps) => ({
         fromReduxDispatch: (_parameter: string) => {
             console.log(ownProps.fromParent);

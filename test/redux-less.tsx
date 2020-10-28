@@ -7,7 +7,7 @@ type ComponentProps = ReduxComposedProps<{
 
 const Component: React.FC<ComponentProps['all']> = (props) => <div>{props.fromParent}</div>;
 
-const ConnectedComponent = connector<ComponentProps, React.FC<ComponentProps['all']>>(Component);
+const ConnectedComponent = connector<ComponentProps>(Component);
 
 export const ParentComponent: React.FC = () => (
     <div>

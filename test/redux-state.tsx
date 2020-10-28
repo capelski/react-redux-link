@@ -16,7 +16,7 @@ const Component: React.FC<ComponentProps['all']> = (props) => (
     </div>
 );
 
-const ConnectedComponent = connector<ComponentProps, React.FC<ComponentProps['all']>>(Component, {
+const ConnectedComponent = connector<ComponentProps>(Component, {
     mapStateToProps: (_state, ownProps) => ({ fromReduxState: ownProps.fromParent })
 });
 
