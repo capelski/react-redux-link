@@ -5,5 +5,5 @@
         "lib": ["dom", "es2017"],
         "noEmit": true
     },
-    "include": ["."]
+    "include": ["./success"]
 }
