@@ -1,5 +1,5 @@
 import React from 'react';
-import { connector, ReduxComposedProps } from '../src/index';
+import { linker, ReduxComposedProps } from '../src/index';
 
 export type ComponentProps = ReduxComposedProps<{
     fromParent: string;
@@ -7,4 +7,4 @@ export type ComponentProps = ReduxComposedProps<{
 
 export const Component: React.FC<ComponentProps['all']> = (props) => <div>{props.fromParent}</div>;
 
-export const ConnectedComponent = connector<ComponentProps>(Component, undefined);
+export const ConnectedComponent = linker<ComponentProps>(Component, undefined);

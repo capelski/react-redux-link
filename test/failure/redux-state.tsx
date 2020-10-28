@@ -1,5 +1,5 @@
 import React from 'react';
-import { connector } from '../../src/index';
+import { linker } from '../../src/index';
 import { Component, ComponentProps, ConnectedComponent } from '../redux-state-base';
 
 export const ParentComponent: React.FC = () => (
@@ -13,16 +13,16 @@ export const ParentComponent: React.FC = () => (
     </div>
 );
 
-connector<ComponentProps>(Component); // Missing argument
+linker<ComponentProps>(Component); // Missing argument
 
-connector<ComponentProps>(Component, {}); // Invalid second argument
+linker<ComponentProps>(Component, {}); // Invalid second argument
 
-connector<ComponentProps>(Component, {
+linker<ComponentProps>(Component, {
     // Invalid mapStateToProps return type
     mapStateToProps: (_dispatch, _ownProps) => ({})
 });
 
-connector<ComponentProps>(Component, {
+linker<ComponentProps>(Component, {
     // Invalid mapDispatchToProps argument
     mapDispatchToProps: (_dispatch, ownProps) => ({
         fromReduxDispatch: (_parameter: string) => {

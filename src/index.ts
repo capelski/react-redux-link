@@ -30,7 +30,7 @@ export interface ReduxComposedProps<
         : TPropsFromParent & TPropsFromReduxState & TPropsFromReduxDispatch;
 }
 
-export type ReduxConnectorProperties<
+export type ReduxLinkerProperties<
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -86,7 +86,7 @@ type ReduxStateMapper<TState, TPropsFromParent, TPropsFromReduxState> = (
     propsFromParent: TPropsFromParent
 ) => TPropsFromReduxState;
 
-const getReduxConnector = <
+const getReduxLinker = <
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -95,15 +95,15 @@ const getReduxConnector = <
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 >(
-    connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+    linkerProperties: ReduxLinkerProperties<TComponentProps, TState, TDispatch>
 ) => {
     return connect(
-        connectorProperties && connectorProperties.mapStateToProps,
-        connectorProperties && connectorProperties.mapDispatchToProps
+        linkerProperties && linkerProperties.mapStateToProps,
+        linkerProperties && linkerProperties.mapDispatchToProps
     );
 };
 
-export const connector = <
+export const linker = <
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -113,12 +113,12 @@ export const connector = <
     TDispatch extends Dispatch = Dispatch
 >(
     component: React.FC,
-    connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+    linkerProperties: ReduxLinkerProperties<TComponentProps, TState, TDispatch>
 ) => {
-    return getReduxConnector(connectorProperties)(component);
+    return getReduxLinker(linkerProperties)(component);
 };
 
-export const getTypedConnector = <
+export const getTypedLinker = <
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 >() =>
@@ -130,7 +130,7 @@ export const getTypedConnector = <
         >
     >(
         component: React.FC,
-        connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+        linkerProperties: ReduxLinkerProperties<TComponentProps, TState, TDispatch>
     ) {
-        return getReduxConnector(connectorProperties)(component);
+        return getReduxLinker(linkerProperties)(component);
     };
