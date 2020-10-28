@@ -7,15 +7,18 @@ type ComponentProps = ReduxComposedProps<{
 
 const Component: React.FC<ComponentProps['all']> = (props) => <div>{props.fromParent}</div>;
 
-const ConnectedComponent = getReduxConnector<ComponentProps>({})(Component);
+const ConnectedComponent = getReduxConnector<ComponentProps>()(Component);
 
-const ParentComponent: React.FC = () => (
+export const ParentComponent: React.FC = () => (
     <div>
         <Component fromParent={'test'} />
-        <ConnectedComponent />
-        {/* TODO This should:
-        - Complain about missing fromParent */}
+        <ConnectedComponent fromParent={'test'} />
+
+        {/* Following cases should raise typescript errors:
+        - Missing property from parent
+        - Invalid property */}
+
+        {/* <ConnectedComponent /> 
+        <ConnectedComponent asd={3} /> */}
     </div>
 );
-
-console.log(ParentComponent({}));

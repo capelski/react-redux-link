@@ -6,6 +6,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc -p ./tsconfig.json",
+        "prettier": "prettier --write \"{src,test}/**/*.{ts,tsx}\"",
         "test": "tsc -p test/tsconfig.json",
         "watch": "tsc -p ./tsconfig.json -w"
     },
