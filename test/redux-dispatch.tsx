@@ -1,5 +1,5 @@
 import React from 'react';
-import { getReduxConnector, ReduxComposedProps } from '../src/index';
+import { connector, ReduxComposedProps } from '../src/index';
 
 type ComponentProps = ReduxComposedProps<
     {
@@ -17,13 +17,13 @@ const Component: React.FC<ComponentProps['all']> = (props) => (
     </div>
 );
 
-const ConnectedComponent = getReduxConnector<ComponentProps>({
+const ConnectedComponent = connector<ComponentProps, React.FC<ComponentProps['all']>>(Component, {
     mapDispatchToProps: (_dispatch, ownProps) => ({
         fromReduxDispatch: (_parameter: string) => {
             console.log(ownProps.fromParent);
         }
     })
-})(Component);
+});
 
 export const ParentComponent: React.FC = () => (
     <div>

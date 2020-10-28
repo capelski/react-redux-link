@@ -1,5 +1,5 @@
 import React from 'react';
-import { getReduxConnector, ReduxComposedProps } from '../src/index';
+import { connector, ReduxComposedProps } from '../src/index';
 
 type ComponentProps = ReduxComposedProps<{
     fromParent: string;
@@ -7,7 +7,7 @@ type ComponentProps = ReduxComposedProps<{
 
 const Component: React.FC<ComponentProps['all']> = (props) => <div>{props.fromParent}</div>;
 
-const ConnectedComponent = getReduxConnector<ComponentProps>()(Component);
+const ConnectedComponent = connector<ComponentProps, React.FC<ComponentProps['all']>>(Component);
 
 export const ParentComponent: React.FC = () => (
     <div>

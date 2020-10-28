@@ -107,3 +107,22 @@ export const getReduxConnector = <
         connectorProperties && connectorProperties.mapDispatchToProps
     );
 };
+
+export const connector = <
+    TComponentProps extends ReduxComposedProps<
+        TComponentProps['fromParent'],
+        TComponentProps['fromReduxState'],
+        TComponentProps['fromReduxDispatch']
+    >,
+    TReactComponent extends React.FC, // TODO Provide react component properties generic type
+    TState extends DefaultRootState = DefaultRootState,
+    TDispatch extends Dispatch = Dispatch
+>(
+    component: TReactComponent,
+    connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+) => {
+    return connect(
+        connectorProperties && connectorProperties.mapStateToProps,
+        connectorProperties && connectorProperties.mapDispatchToProps
+    )(component);
+};
