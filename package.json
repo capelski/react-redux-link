@@ -1,5 +1,5 @@
 {
-    "name": "react-redux-linker",
+    "name": "react-redux-link",
     "version": "1.0.0",
     "description": "Utility to ensure component types when connecting a react component to redux",
     "main": "dist/index.js",
@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/capelski/react-redux-linker.git"
+        "url": "git+https://github.com/capelski/react-redux-link.git"
     },
     "keywords": [
         "react-redux",
@@ -22,9 +22,9 @@
     "author": "Carles Capellas <capellas.carles@gmail.com>",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/capelski/react-redux-linker/issues"
+        "url": "https://github.com/capelski/react-redux-link/issues"
     },
-    "homepage": "https://github.com/capelski/react-redux-linker#readme",
+    "homepage": "https://github.com/capelski/react-redux-link#readme",
     "devDependencies": {
         "@types/react-redux": "*",
         "prettier": "^2.1.2",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { linker, ReduxComposedProps } from '../src/index';
+import { link, ReduxComposedProps } from '../src/index';
 
 export type ComponentProps = ReduxComposedProps<
     {
@@ -17,7 +17,7 @@ export const Component: React.FC<ComponentProps['all']> = (props) => (
     </div>
 );
 
-export const ConnectedComponent = linker<ComponentProps>(Component, {
+export const ConnectedComponent = link<ComponentProps>(Component, {
     mapDispatchToProps: (_dispatch, ownProps) => ({
         fromReduxDispatch: (_parameter: string) => {
             console.log(ownProps.fromParent);

@@ -30,7 +30,7 @@ export interface ReduxComposedProps<
         : TPropsFromParent & TPropsFromReduxState & TPropsFromReduxDispatch;
 }
 
-export type ReduxLinkerProperties<
+export type ReduxLinkProperties<
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -86,7 +86,7 @@ type ReduxStateMapper<TState, TPropsFromParent, TPropsFromReduxState> = (
     propsFromParent: TPropsFromParent
 ) => TPropsFromReduxState;
 
-const getReduxLinker = <
+const getReduxLink = <
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -95,15 +95,15 @@ const getReduxLinker = <
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 >(
-    linkerProperties: ReduxLinkerProperties<TComponentProps, TState, TDispatch>
+    linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
 ) => {
     return connect(
-        linkerProperties && linkerProperties.mapStateToProps,
-        linkerProperties && linkerProperties.mapDispatchToProps
+        linkProperties && linkProperties.mapStateToProps,
+        linkProperties && linkProperties.mapDispatchToProps
     );
 };
 
-export const linker = <
+export const link = <
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -113,12 +113,12 @@ export const linker = <
     TDispatch extends Dispatch = Dispatch
 >(
     component: React.FC,
-    linkerProperties: ReduxLinkerProperties<TComponentProps, TState, TDispatch>
+    linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
 ) => {
-    return getReduxLinker(linkerProperties)(component);
+    return getReduxLink(linkProperties)(component);
 };
 
-export const getTypedLinker = <
+export const getTypedLink = <
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 >() =>
@@ -130,7 +130,7 @@ export const getTypedLinker = <
         >
     >(
         component: React.FC,
-        linkerProperties: ReduxLinkerProperties<TComponentProps, TState, TDispatch>
+        linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
     ) {
-        return getReduxLinker(linkerProperties)(component);
+        return getReduxLink(linkProperties)(component);
     };

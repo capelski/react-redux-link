@@ -1,5 +1,5 @@
 import React from 'react';
-import { linker } from '../../src/index';
+import { link } from '../../src/index';
 import { Component, ComponentProps, ConnectedComponent } from '../redux-less-base';
 
 export const ParentComponent: React.FC = () => (
@@ -11,5 +11,5 @@ export const ParentComponent: React.FC = () => (
     </div>
 );
 
-linker<ComponentProps>(Component); // Missing second argument
-linker<ComponentProps>(Component, {}); // Invalid second argument
+link<ComponentProps>(Component); // Missing second argument
+link<ComponentProps>(Component, {}); // Invalid second argument
