@@ -1,16 +1,55 @@
 # react-redux-link
 
-Utility to type check component properties when connecting a react component to the redux store
+Utility to type check component properties when connecting a react component to the [redux](https://www.npmjs.com/package/redux) store
 
 ## Usage
 
-You need to replace the react-redux `connect` call with `link` and declare the component properties through `ReduxComposedProps` type. `ReduxComposedProps` takes up to three generic arguments, all of them optional:
+You need to replace the [react-redux](https://www.npmjs.com/package/react-redux) `connect` call with `link` and declare the component properties through `ReduxComposedProps` type. `ReduxComposedProps` takes up to three generic arguments, all of them optional:
 
 1. Properties injected to the component by the **parent**
 2. Properties injected to the component from the **redux state**
 3. Properties injected to the component using **redux dispatch**
 
-## Examples
+Example: connect using **mapStateToProps**
+
+```tsx
+import React from 'react';
+import { link, ReduxComposedProps } from 'react-redux-link';
+// ...
+
+type MyComponentProps = ReduxComposedProps<
+    {
+        // Properties injected from the parent component
+        fromParent: string;
+    },
+    {
+        // Properties mapped from the redux state
+        fromState: string;
+    }
+>;
+
+const MyComponent: React.FC<MyComponentProps['all']> = (props) => (/*...*/);
+
+export const ConnectedComponent = link<MyComponentProps /*, TState, TDispatch*/>(Component, {
+    mapStateToProps: (state, propsFromParent) => ({
+        fromState: '...'
+    })
+});
+```
+
+Note that `link` method takes the redux state and dispatch types as optional generic parameters (TState and TDispatch). These parameters are then used to infer the type of the `state` and `dispatch` arguments in the `mapStateToProps` and `mapDispatchToProps` functions respectively. When they are not provided, they will default to `DefaultRootState` (type from [@types/react-redux](https://www.npmjs.com/package/@types/react-redux)) and `Dispatch<AnyAction>` (type from [redux](https://www.npmjs.com/package/redux)).
+
+You can avoid having to provide the generic parameters on every `link` call by generating a custom typed `link` function. For example:
+
+```tsx
+import { getTypedLink } from 'react-redux-link';
+import { Dispatch } from './dispatch';
+import { State } from './state';
+
+export const typedLink = getTypedLink<State, Dispatch>();
+```
+
+## More examples
 
 Connect using **mapStateToProps** and **mapDispatchToProps**:
 
@@ -34,13 +73,9 @@ type MyComponentProps = ReduxComposedProps<
     }
 >;
 
-const MyComponent: React.FC<MyComponentProps['all']> = (props) => (
-    <div onClick={props.fromDispatch}>
-        {props.fromParent}-{props.fromState}
-    </div>
-);
+const MyComponent: React.FC<MyComponentProps['all']> = (props) => (/*...*/);
 
-export const ConnectedComponent = link<MyComponentProps>(Component, {
+export const ConnectedComponent = link<MyComponentProps /*, TState, TDispatch*/>(Component, {
     mapStateToProps: (state, propsFromParent) => ({
         fromState: '...'
     }),
@@ -52,38 +87,7 @@ export const ConnectedComponent = link<MyComponentProps>(Component, {
 });
 ```
 
-Connect using **mapStateToProps** only:
-
-```tsx
-import React from 'react';
-import { link, ReduxComposedProps } from 'react-redux-link';
-// ...
-
-type MyComponentProps = ReduxComposedProps<
-    {
-        // Properties injected from the parent component
-        fromParent: string;
-    },
-    {
-        // Properties mapped from the redux state
-        fromState: string;
-    }
->;
-
-const MyComponent: React.FC<MyComponentProps['all']> = (props) => (
-    <div>
-        {props.fromParent}-{props.fromState}
-    </div>
-);
-
-export const ConnectedComponent = link<MyComponentProps>(Component, {
-    mapStateToProps: (state, propsFromParent) => ({
-        fromState: '...'
-    })
-});
-```
-
-Connect using **mapDispatchToProps** only:
+Connect using **mapDispatchToProps**:
 
 ```tsx
 import React from 'react';
@@ -102,13 +106,9 @@ type MyComponentProps = ReduxComposedProps<
     }
 >;
 
-const MyComponent: React.FC<MyComponentProps['all']> = (props) => (
-    <div onClick={props.fromDispatch}>
-        {props.fromParent}
-    </div>
-);
+const MyComponent: React.FC<MyComponentProps['all']> = (props) => (/*...*/);
 
-export const ConnectedComponent = link<MyComponentProps>(Component, {
+export const ConnectedComponent = link<MyComponentProps /*, TState, TDispatch*/>(Component, {
     mapDispatchToProps: (dispatch, propsFromParent) => ({
         fromDispatch: () => {
             /* ... */
@@ -129,14 +129,17 @@ type MyComponentProps = ReduxComposedProps<{
     fromParent: string;
 }>;
 
-const MyComponent: React.FC<MyComponentProps['all']> = (props) => <div>{props.fromParent}</div>;
+const MyComponent: React.FC<MyComponentProps['all']> = (props) => (/*...*/);
 
-export const ConnectedComponent = link<MyComponentProps>(Component, undefined);
+export const ConnectedComponent = link<MyComponentProps /*, TState, TDispatch*/>(
+    Component,
+    undefined
+);
 ```
 
 ## Motivation
 
-Every time I add redux to a React+Typescript project I struggle to add type checks on the components `connect` call (from react-redux). What I usually end up doing is creating separate interfaces for each component, grouping the properties based on the its origin: provided from the **parent** component, provided from the redux **state** or provided using redux **dispatch**. The resulting components look something like this:
+Every time I add [redux](https://www.npmjs.com/package/redux) to a React+Typescript project I struggle to add type checks on the components `connect` call (from [react-redux](https://www.npmjs.com/package/react-redux)). What I usually end up doing is creating separate interfaces for each component, grouping the properties based on the its origin: provided from the **parent** component, provided from the redux **state** or provided using redux **dispatch**. The resulting components look something like this:
 
 ```tsx
 import React from 'react';
