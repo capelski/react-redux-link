@@ -81,10 +81,10 @@ export type ReduxConnectorProperties<
           }
     : undefined;
 
-type ReduxDispatchMapper<TDispatch, TPropsFromParent, fromReduxDispatch> = (
+type ReduxDispatchMapper<TDispatch, TPropsFromParent, TPropsFromReduxDispatch> = (
     dispatch: TDispatch,
     propsFromParent: TPropsFromParent
-) => fromReduxDispatch;
+) => TPropsFromReduxDispatch;
 
 type ReduxStateMapper<TState, TPropsFromParent, TPropsFromReduxState> = (
     state: TState,
