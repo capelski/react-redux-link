@@ -1,7 +1,7 @@
 {
     "name": "react-redux-link",
     "version": "1.0.0",
-    "description": "Utility to ensure component types when connecting a react component to redux",
+    "description": "Utility to type check component properties when connecting a react component to the redux store",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
