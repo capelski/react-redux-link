@@ -13,6 +13,7 @@ export interface ReduxComposedProps<
     [fromParent]: TPropsFromParent;
     [fromReduxState]: TPropsFromReduxState;
     [fromReduxDispatch]: TPropsFromReduxDispatch;
+
     all: TPropsFromParent extends undefined
         ? TPropsFromReduxState extends undefined
             ? TPropsFromReduxDispatch extends undefined
@@ -97,7 +98,12 @@ const getReduxLink = <
 >(
     linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
 ) => {
-    return connect(
+    return connect<
+        TComponentProps['fromReduxState'],
+        TComponentProps['fromReduxDispatch'],
+        TComponentProps['fromParent'],
+        TState
+    >(
         linkProperties && linkProperties.mapStateToProps,
         linkProperties && linkProperties.mapDispatchToProps
     );
@@ -110,9 +116,10 @@ export const link = <
         TComponentProps['fromReduxDispatch']
     >,
     TState extends DefaultRootState = DefaultRootState,
-    TDispatch extends Dispatch = Dispatch
+    TDispatch extends Dispatch = Dispatch,
+    TReactComponent extends React.FC = React.FC<TComponentProps['all']>
 >(
-    component: React.FC,
+    component: TReactComponent,
     linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
 ) => {
     return getReduxLink(linkProperties)(component);
@@ -127,9 +134,10 @@ export const getTypedLink = <
             TComponentProps['fromParent'],
             TComponentProps['fromReduxState'],
             TComponentProps['fromReduxDispatch']
-        >
+        >,
+        TReactComponent extends React.FC = React.FC<TComponentProps['all']>
     >(
-        component: React.FC,
+        component: TReactComponent,
         linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
     ) {
         return getReduxLink(linkProperties)(component);
