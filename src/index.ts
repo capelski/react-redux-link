@@ -1,14 +1,18 @@
 import { connect, DefaultRootState } from 'react-redux';
 import { Dispatch } from 'redux';
 
+const fromParent = 'fromParent';
+const fromReduxState = 'fromReduxState';
+const fromReduxDispatch = 'fromReduxDispatch';
+
 export interface ReduxComposedProps<
     TPropsFromParent = undefined,
     TPropsFromReduxState = undefined,
     TPropsFromReduxDispatch = undefined
 > {
-    fromParent: TPropsFromParent;
-    fromReduxState: TPropsFromReduxState;
-    fromReduxDispatch: TPropsFromReduxDispatch;
+    [fromParent]: TPropsFromParent;
+    [fromReduxState]: TPropsFromReduxState;
+    [fromReduxDispatch]: TPropsFromReduxDispatch;
     all: TPropsFromParent extends undefined
         ? TPropsFromReduxState extends undefined
             ? TPropsFromReduxDispatch extends undefined
@@ -35,13 +39,19 @@ export type ReduxConnectorProperties<
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 > = TComponentProps extends {
-    reduxState: infer TComponentState;
-    reduxDispatch: infer TComponentDispatch;
+    [fromReduxState]: infer TComponentState;
+    [fromReduxDispatch]: infer TComponentDispatch;
 }
     ? TComponentState extends undefined
         ? TComponentDispatch extends undefined
-            ? {}
+            ?
+                  | {
+                        mapStateToProps?: undefined;
+                        mapDispatchToProps?: undefined;
+                    }
+                  | undefined
             : {
+                  mapStateToProps?: undefined;
                   mapDispatchToProps: ReduxDispatchMapper<
                       TDispatch,
                       TComponentProps['fromParent'],
@@ -55,6 +65,7 @@ export type ReduxConnectorProperties<
                   TComponentProps['fromParent'],
                   TComponentProps['fromReduxState']
               >;
+              mapDispatchToProps?: undefined;
           }
         : {
               mapStateToProps: ReduxStateMapper<
@@ -68,7 +79,7 @@ export type ReduxConnectorProperties<
                   TComponentProps['fromReduxDispatch']
               >;
           }
-    : never;
+    : undefined;
 
 type ReduxDispatchMapper<TDispatch, TPropsFromParent, fromReduxDispatch> = (
     dispatch: TDispatch,
@@ -89,7 +100,10 @@ export const getReduxConnector = <
     TState extends DefaultRootState = DefaultRootState,
     TDispatch extends Dispatch = Dispatch
 >(
-    connectorProperties: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+    connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
 ) => {
-    return connect(connectorProperties.mapStateToProps, connectorProperties.mapDispatchToProps);
+    return connect(
+        connectorProperties && connectorProperties.mapStateToProps,
+        connectorProperties && connectorProperties.mapDispatchToProps
+    );
 };
