@@ -121,8 +121,5 @@ export const connector = <
     component: TReactComponent,
     connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
 ) => {
-    return connect(
-        connectorProperties && connectorProperties.mapStateToProps,
-        connectorProperties && connectorProperties.mapDispatchToProps
-    )(component);
+    return getReduxConnector(connectorProperties)(component);
 };
