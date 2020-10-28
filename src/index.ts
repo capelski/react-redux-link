@@ -91,7 +91,7 @@ type ReduxStateMapper<TState, TPropsFromParent, TPropsFromReduxState> = (
     propsFromParent: TPropsFromParent
 ) => TPropsFromReduxState;
 
-export const getReduxConnector = <
+const getReduxConnector = <
     TComponentProps extends ReduxComposedProps<
         TComponentProps['fromParent'],
         TComponentProps['fromReduxState'],
@@ -122,3 +122,20 @@ export const connector = <
 ) => {
     return getReduxConnector(connectorProperties)(component);
 };
+
+export const getTypedConnector = <
+    TState extends DefaultRootState = DefaultRootState,
+    TDispatch extends Dispatch = Dispatch
+>() =>
+    function <
+        TComponentProps extends ReduxComposedProps<
+            TComponentProps['fromParent'],
+            TComponentProps['fromReduxState'],
+            TComponentProps['fromReduxDispatch']
+        >
+    >(
+        component: React.FC,
+        connectorProperties?: ReduxConnectorProperties<TComponentProps, TState, TDispatch>
+    ) {
+        return getReduxConnector(connectorProperties)(component);
+    };
