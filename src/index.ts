@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react';
 import { connect, DefaultRootState } from 'react-redux';
 import { Dispatch } from 'redux';
 
@@ -10,7 +11,7 @@ export interface ReduxComposedProps<
     TPropsFromReduxState = undefined,
     TPropsFromReduxDispatch = undefined
 > {
-    [fromParent]: TPropsFromParent;
+    [fromParent]: PropsWithChildren<TPropsFromParent>;
     [fromReduxState]: TPropsFromReduxState;
     [fromReduxDispatch]: TPropsFromReduxDispatch;
 
@@ -140,5 +141,5 @@ export const getTypedLink = <
         component: TReactComponent,
         linkProperties: ReduxLinkProperties<TComponentProps, TState, TDispatch>
     ) {
-        return getReduxLink(linkProperties)(component);
+        return link<TComponentProps, TState, TDispatch>(component, linkProperties);
     };
